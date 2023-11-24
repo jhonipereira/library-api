@@ -10,6 +10,8 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.util.Optional;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(SpringExtension.class)
@@ -27,7 +29,7 @@ public class BookRepositoryTest {
     public void returnTrueWhenISBNExists(){
         //scenario
         String isbn = "123";
-        Book book = Book.builder().title("King Arthur").isbn("123").author("Arthur").build();
+        Book book = createBook();
         entityManager.persist(book);
 
         //execution
@@ -35,6 +37,10 @@ public class BookRepositoryTest {
 
         //verification
         assertThat(exists).isTrue();
+    }
+
+    private static Book createBook() {
+        return Book.builder().title("King Arthur").isbn("123").author("Arthur").build();
     }
 
     @Test
@@ -48,5 +54,41 @@ public class BookRepositoryTest {
 
         //verification
         assertThat(exists).isFalse();
+    }
+
+    @Test
+    @DisplayName("should obtain a book by id")
+    public void findByIdTest(){
+       Book book =  createBook();
+       entityManager.persist(book);
+
+       //exec
+        Optional<Book> foundBook = repository.findById(book.getId());
+
+        //verification
+        assertThat(foundBook.isPresent()).isTrue();
+    }
+
+    @Test
+    @DisplayName("should save a book")
+    public void saveBookTest(){
+        Book book = createBook();
+
+        Book savedBook = repository.save(book);
+
+        assertThat(savedBook.getId()).isNotNull();
+    }
+
+    @Test
+    @DisplayName("should delete a book")
+    public void deleteBookTest(){
+        Book book = createBook();
+        entityManager.persist(book);
+
+        Book found = entityManager.find(Book.class, book.getId() );
+        repository.delete(book);
+
+        Book deleted = entityManager.find(Book.class, book.getId() );
+        assertThat(deleted).isNull();
     }
 }
