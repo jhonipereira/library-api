@@ -1,7 +1,9 @@
 package com.jhonipereira.libraryapi.api.exception;
 
 import com.jhonipereira.libraryapi.exception.BusinessException;
+import org.apache.coyote.Response;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -17,6 +19,10 @@ public class ApiErrors {
 
     public ApiErrors(BusinessException e) {
         this.errors = Arrays.asList(e.getMessage());
+    }
+
+    public ApiErrors(ResponseStatusException e){
+        this.errors = Arrays.asList(e.getReason());
     }
 
     public List<String> getErrors() {
