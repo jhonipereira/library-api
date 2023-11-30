@@ -251,7 +251,11 @@ public class BookControllerTest {
                 .andExpect(jsonPath("pageable.pageNumber").value(0));
     }
 
-    private static BookDTO createNewBook() {
+    private BookDTO createNewBook() {
         return BookDTO.builder().author("Arthur").title("King Arthur").isbn("0002").build();
+    }
+
+    public static Book createNewBookStatic() {
+        return Book.builder().author("Arthur").title("King Arthur").isbn("0002").build();
     }
 }

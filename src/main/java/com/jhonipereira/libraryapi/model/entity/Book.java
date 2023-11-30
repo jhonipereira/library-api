@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @Builder
 @NoArgsConstructor
@@ -20,6 +22,9 @@ public class Book {
     private String title;
     private String author;
     private String isbn;
+
+    @OneToMany(mappedBy = "book") //property name on the Loan class
+    private List<Loan> loans;
 
 
 }
