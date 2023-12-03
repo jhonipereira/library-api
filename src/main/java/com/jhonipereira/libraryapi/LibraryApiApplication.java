@@ -25,15 +25,15 @@ public class LibraryApiApplication {
 		return new ModelMapper();
 	}
 
-	@Bean
-	public CommandLineRunner runner(){
-		return args -> {
+//	@Bean
+//	public CommandLineRunner runner(){
+//		return args -> {
 //			MANUAL EMAIL TESTING
 //			List<String> emails = Arrays.asList("4d86e405ec-c703cb@inbox.mailtrap.io");
 //			emailService.sendMails("testing mail service", emails);
 //			System.out.println("emails sent");
-		};
-	}
+//		};
+//	}
 
 	public static void main(String[] args) {
 		SpringApplication.run(LibraryApiApplication.class, args);
